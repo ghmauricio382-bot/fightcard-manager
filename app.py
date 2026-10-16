@@ -1,7 +1,8 @@
-query_params = st.query_paramsimport 
 streamlit as st
 import qrcode
 from io import BytesIO
+
+query_params = st.query_params
 
 # --- INITIALIZE LIVE DATABASE IN MEMORY ---
 if "fighters" not in st.session_state:
