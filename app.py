@@ -77,8 +77,15 @@ bet_data = {
     "bettor_name": bettor_name,
     "ticket_id": ticket_id,
     "value": cash_received,
-}cash_received = st.number_input("Exact Cash Received ($)", min_value=1.0, step=1.0)
-ticket_id = "".join(bettor_name.split()).lower()                "value": cash_received,
+bettor_name = st.text_input("Bettor Name / Alias", key="bettor_name_input")
+cash_received = st.number_input("Exact Cash Received ($)", min_value=1.0, step=1.0)
+ticket_id = "".join(bettor_name.split()).lower()
+
+bet_data = {
+    "bettor_name": bettor_name,
+    "ticket_id": ticket_id,
+    "value": cash_received,
+}ticket_id = "".join(bettor_name.split()).lower()                "value": cash_received,
                 "used": False
             }
             
