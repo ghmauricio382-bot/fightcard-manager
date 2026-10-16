@@ -13,8 +13,15 @@ if "receipts" not in st.session_state:
     st.session_state.receipts = {}
 if "locked_bets" not in st.session_state:
     st.session_state.locked_bets = []
-
-HOST_CUT_PERCENTAGE = 0.07  # 7% host cut
+if "ticket" in query_params:
+    ticket_id = query_params["ticket"]
+    st.title("🎟️ Ticket Details")
+    st.write(f"Ticket ID: {ticket_id}")
+    
+    # Display bettor info and total prize pool here
+else:
+    # Indent all of your existing admin code here
+    st.title("Admin Panel")HOST_CUT_PERCENTAGE = 0.07  # 7% host cut
 
 st.set_page_config(page_title="Fight Night Pool Manager", layout="centered")
 
