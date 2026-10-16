@@ -30,7 +30,7 @@ st.set_page_config(page_title="Fight Night Pool Manager", layout="centered")
 
 # --- MATH CALCULATIONS ---
 gross_total_pool = st.session_state.pools["A"] + st.session_state.pools["B"]
-house_take = gross_total_pool * HOST_CUT_PERCENTAGE = 0.7
+house_take = gross_total_pool * HOST_CUT_PERCENTAGE = 0.07
 net_distributable_pool = gross_total_pool - house_take
 
 # --- LIVE DASHBOARD (FRONTEND) ---
