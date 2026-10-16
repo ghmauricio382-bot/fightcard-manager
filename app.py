@@ -1,12 +1,10 @@
 import streamlit as st
-import qrcode
-from io import BytesIO
+import urllib.parse
 
 # --- 1. SETTINGS & APP CONSTANTS ---
 st.set_page_config(page_title="Fight Night Pool Manager", layout="centered")
 HOST_CUT_PERCENTAGE = 0.07  # Your 7% host cut
 
-# Clean parameter lookup safety framework
 query_params = st.query_params
 
 # --- 2. 🌐 GLOBAL SHARED DATABASE CLASS ---
@@ -109,21 +107,22 @@ elif query_params.get("view") == "admin":
                 st.balloons()
                 st.rerun()
 
-        # FIXED CLEANER WEB URL GENERATOR BLOCK
+        # FOOLPROOF GOOGLE API QR GENERATOR
         if db.locked_bets:
             last_bet = db.locked_bets[-1]
             st.markdown("---")
             st.subheader(f"📱 QR Code Receipt for {last_bet['name']}")
             st.info("Scan this code right now to open the live personal ticket screen:")
             
-            # Clean direct link string format passing strict ticket parameters
+            # Form clean direct web url address string 
             receipt_url = f"https://streamlit.app{last_bet['ticket_id']}"
             
-            # Clear internal formatting artifacts to make it legible to mobile phones
-            qr_img = qrcode.make(str(receipt_url).strip())
-            buf = BytesIO()
-            qr_img.save(buf, format="PNG")
-            st.image(buf.getvalue(), use_container_width=True)
+            # Encode URL parameters securely for safe transit over the internet
+            encoded_url = urllib.parse.quote_plus(receipt_url)
+            google_qr_api = f"https://googleapis.com{encoded_url}&choe=UTF-8"
+            
+            # Stream the dynamic cloud image securely onto the view area
+            st.image(google_qr_api, caption="Scan this clean receipt link")
             st.code(receipt_url, language="text")
 
     else:
