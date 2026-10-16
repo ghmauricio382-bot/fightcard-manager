@@ -70,7 +70,8 @@ with st.sidebar:
         
         # Issue Cash Tickets
         st.subheader("🎟️ Issue Cash Ticket")
-        st.text_input("Bettor Name / Alias", key="bettor_name_input")        
+bettor_name = st.text_input("Bettor Name / Alias", key="bettor_name_input")
+cash_received = st.number_input("Exact Cash Received ($)")
         cash_received = st.number_input("Exact Cash Received (\$)", min_value=1.0, step=1.0)
         if st.button("Generate QR Code Ticket"):
             ticket_id = "".join(bettor_name.split()).lower()
