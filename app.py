@@ -79,7 +79,7 @@ bet_data = {
     "used": False
 }            # FIXED QR CODE LINK: Automatically grabs your exact live web address 
 base_url = st.nav_to if hasattr(st, "nav_to") else "https://streamlit.io" 
-            try:
+try:
                 # Tries to read the browser's URL context live
                 from streamlit.web.server.server import Server
                 current_url = st.get_option("browser.gatherUsageStats") 
