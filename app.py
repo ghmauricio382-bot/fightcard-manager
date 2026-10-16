@@ -95,17 +95,19 @@ with st.sidebar:
             st.warning("Note: When deploying, copy your live Streamlit site URL from the browser bar and swap it into the QR generator below if needed.")
             
             # Manual URL config override box to guarantee QR works perfectly
-            live_site_url = st.text_input("Paste your live website homepage link here first:", value="https://streamlit.app")
-            final_qr_url = f"{live_site_url.rstrip('/')}/?ticket={ticket_id}"
-            
-            st.write(f"**Private Link for {bettor_name}:**")
-            st.code(final_qr_url)
+            # PASTE THIS INSTEAD:
+homepage_url = st.text_input(
+    "Paste your live website homepage link here first:",
+    value=st.secrets.get("SITE_URL", "https://fightcard-manager-fwwmzw5rjtx3jufqcpdfsw.streamlit.app")
+final_qr_url = f"{homepage_url.rstrip('/')}/?ticket={ticket_id}"            
+st.write(f"**Private Link for {bettor_name}:**")
+st.code(final_qr_url)
             
             # Generate valid QR Matrix
-            qr = qrcode.QRCode(version=1, box_size=10, border=4)
-            qr.add_data(final_qr_url)
-            qr.make(fit=True)
-            img = qr.make_image(fill_color="black", back_color="white")
+qr = qrcode.QRCode(version=1, box_size=10, border=4)
+qr.add_data(final_qr_url)
+qr.make(fit=True)
+img = qr.make_image(fill_color="black", back_color="white")
             
             buf = BytesIO()
             img.save(buf, format="PNG")
