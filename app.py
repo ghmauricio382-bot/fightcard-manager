@@ -76,8 +76,8 @@ bet_data = {
     "bettor_name": bettor_name,
     "ticket_id": ticket_id,
     "value": cash_received,
-    "used": False
-} FIXED QR CODE LINK: Automatically grabs your exact live web address 
+    "used": False } 
+FIXED QR CODE LINK: Automatically grabs your exact live web address 
 base_url = st.nav_to if hasattr(st, "nav_to") else "https://streamlit.io" 
 try:
                 # Tries to read the browser's URL context live
