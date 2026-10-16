@@ -6,11 +6,10 @@ from io import BytesIO
 st.set_page_config(page_title="Fight Night Pool Manager", layout="centered")
 HOST_CUT_PERCENTAGE = 0.07  # Your 7% host cut
 
+# Clean parameter lookup safety framework
 query_params = st.query_params
 
 # --- 2. 🌐 GLOBAL SHARED DATABASE CLASS ---
-# Using @st.cache_resource forces Streamlit to share this exact data object 
-# across all open browser tabs, computers, and spectator phones.
 @st.cache_resource
 class SharedFightNightDatabase:
     def __init__(self):
@@ -19,7 +18,6 @@ class SharedFightNightDatabase:
         self.bettors = {"A": 0, "B": 0}
         self.locked_bets = []
 
-# Instantiate our cross-session background tracker
 db = SharedFightNightDatabase()
 
 # Global Mathematical Calculations
@@ -37,7 +35,6 @@ if "ticket" in query_params:
     st.title("🎟️ Your Personal Bet Receipt")
     st.markdown("---")
     
-    # Locate this bettor's exact row inside your dashboard records
     found_bet = next((bet for bet in db.locked_bets if bet["ticket_id"] == ticket_id), None)
     
     if found_bet:
@@ -47,9 +44,7 @@ if "ticket" in query_params:
         my_amount = found_bet['amount']
         choice_key = found_bet['choice_key']
         
-        # Read the global live values directly
         current_fighter_pool = db.pools[choice_key]
-        
         share_percentage = my_amount / current_fighter_pool if current_fighter_pool > 0 else 0
         possible_payout = share_percentage * net_distributable_pool
         
@@ -78,7 +73,6 @@ elif query_params.get("view") == "admin":
     if admin_pass == "110509":
         st.success("Access Granted")
         
-        # Option A: Manage match names
         st.subheader("📝 Setup Current Matchup")
         new_name_a = st.text_input("Fighter A Name", value=db.fighters["A"])
         new_name_b = st.text_input("Fighter B Name", value=db.fighters["B"])
@@ -90,7 +84,6 @@ elif query_params.get("view") == "admin":
             
         st.markdown("---")
         
-        # Option B: Add Cash Bets In Person
         st.subheader("💵 Add In-Person Cash Bet")
         inbound_name = st.text_input("Customer Name / Ticket Alias")
         inbound_cash = st.number_input("Cash Collected ($)", min_value=1.0, value=20.0, step=5.0)
@@ -103,7 +96,6 @@ elif query_params.get("view") == "admin":
                 target_key = "A" if selected_target == db.fighters["A"] else "B"
                 new_id = f"FIGHT-{len(db.locked_bets) + 1001}"
                 
-                # Append transaction directly to the global network ledger
                 db.pools[target_key] += inbound_cash
                 db.bettors[target_key] += 1
                 db.locked_bets.append({
@@ -117,19 +109,22 @@ elif query_params.get("view") == "admin":
                 st.balloons()
                 st.rerun()
 
-        # Generate a secure web URL that Safari can resolve on external cell networks
+        # FIXED CLEANER WEB URL GENERATOR BLOCK
         if db.locked_bets:
             last_bet = db.locked_bets[-1]
             st.markdown("---")
             st.subheader(f"📱 QR Code Receipt for {last_bet['name']}")
-            st.info("Have the customer scan this code right now with their phone camera to keep their live receipt open.")
+            st.info("Scan this code right now to open the live personal ticket screen:")
             
+            # Clean direct link string format passing strict ticket parameters
             receipt_url = f"https://streamlit.app{last_bet['ticket_id']}"
-            qr_img = qrcode.make(receipt_url)
+            
+            # Clear internal formatting artifacts to make it legible to mobile phones
+            qr_img = qrcode.make(str(receipt_url).strip())
             buf = BytesIO()
             qr_img.save(buf, format="PNG")
             st.image(buf.getvalue(), use_container_width=True)
-            st.caption(f"Secure Receipt URL: {receipt_url}")
+            st.code(receipt_url, language="text")
 
     else:
         st.warning("Please type your Admin PIN password in the sidebar panel to unlock ledger tools.")
@@ -142,11 +137,9 @@ else:
     st.title("🥊 Fight Night Live Board Tracker")
     st.subheader("Current Card Matchup")
     
-    # Simple explicit reload trigger for spectators
     if st.button("🔄 Refresh Live Board Data"):
         st.rerun()
         
-    # Read global states inside layout cards
     col1, col2 = st.columns(2)
     with col1:
         st.metric(
@@ -165,7 +158,6 @@ else:
     st.markdown(f"##### *Net Distributable Pool (After Host Cut): ${net_distributable_pool:,.2f}*")
     st.divider()
     
-    # Scrolling Live Ledger of all bets made globally
     st.subheader("📜 Recent Transactions")
     if db.locked_bets:
         for bet in reversed(db.locked_bets):
