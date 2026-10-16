@@ -109,9 +109,9 @@ qr.add_data(final_qr_url)
 qr.make(fit=True)
 img = qr.make_image(fill_color="black", back_color="white")
             
-            buf = BytesIO()
-            img.save(buf, format="PNG")
-            st.image(buf.getvalue(), caption="Scan this code with bettor's phone camera")
+buf = BytesIO()
+img.save(buf, format="PNG")
+st.image(buf.getvalue(), caption="Scan this code with bettor's phone camera")
 
 # --- USER TICKET SCREEN (SCANNED QR CODES) ---
 # Reads parameters straight from scanned URL link
