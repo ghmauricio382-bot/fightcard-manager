@@ -1,4 +1,5 @@
-query_params = st.query_paramsimport streamlit as st
+query_params = st.query_paramsimport 
+streamlit as st
 import qrcode
 from io import BytesIO
 
