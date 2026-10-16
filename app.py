@@ -50,7 +50,7 @@ with st.sidebar:
     st.header("🔑 Organizer Control Panel")
     admin_pass = st.text_input("Enter Admin PIN", type="password")
     
-    if admin_pass == "1234":  # Change your PIN here
+    if admin_pass == "110509":  # Change your PIN here
         st.success("Access Granted")
         
         # FIX FEATURE: Change fighter names on the spot
@@ -70,8 +70,7 @@ with st.sidebar:
         
         # Issue Cash Tickets
         st.subheader("🎟️ Issue Cash Ticket")
-        bettor_name = st.text_input("Bettor Name / Alias")
-        cash_received = st.number_input("Exact Cash Received (\$)", min_value=1.0, step=1.0)
+        st.text_input("Bettor Name / Alias", key="bettor_name_input")        cash_received = st.number_input("Exact Cash Received (\$)", min_value=1.0, step=1.0)
         
         if st.button("Generate QR Code Ticket"):
             ticket_id = "".join(bettor_name.split()).lower()
@@ -95,20 +94,24 @@ with st.sidebar:
             st.warning("Note: When deploying, copy your live Streamlit site URL from the browser bar and swap it into the QR generator below if needed.")
             
             # Manual URL config override box to guarantee QR works perfectly
-           # Set fallback variables so ticket_id and bettor_name are always defined
+          # Check if a bettor name was submitted in session state or text input
+if "bettor_name_input" in st.session_state and st.session_state["bettor_name_input"]:
+    bettor_name = st.session_state["bettor_name_input"]
+else:
+    bettor_name = "Bettor"
+
+# Grab active ticket ID or fallback
 ticket_id = st.session_state.get("current_ticket_id", "demo123")
-bettor_name = st.session_state.get("current_bettor_name", "Bettor")
 
 homepage_url = st.text_input(
     "Paste your live website homepage link here first:",
     value=st.secrets.get("SITE_URL", "https://fightcard-manager-fwwmzw5rjtx3jufqcpdfsw.streamlit.app"),
     key="homepage_link_input"
 )
+
 final_qr_url = f"{homepage_url.rstrip('/')}/?ticket={ticket_id}"
 st.write(f"**Private Link for {bettor_name}:**")
-st.code(final_qr_url)            
-            # Generate valid QR Matrix
-qr = qrcode.QRCode(version=1, box_size=10, border=4)
+st.code(final_qr_url)qr = qrcode.QRCode(version=1, box_size=10, border=4)
 qr.add_data(final_qr_url)
 qr.make(fit=True)
 img = qr.make_image(fill_color="black", back_color="white")
