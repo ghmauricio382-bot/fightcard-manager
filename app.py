@@ -83,7 +83,7 @@ try:
                 # Tries to read the browser's URL context live
                 from streamlit.web.server.server import Server
                 current_url = st.get_option("browser.gatherUsageStats") 
-            except:
+                except:
                 pass
             
             # Fallback text instruction for URL configuration
