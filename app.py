@@ -86,8 +86,8 @@ try:
 except:
     pass            
             # Fallback text instruction for URL configuration
-            secure_url = f"URL_HOLDER/?ticket={ticket_id}" 
-            st.warning("Note: When deploying, copy your live Streamlit site URL from the browser bar and swap it into the QR generator below if needed.")
+secure_url = f"URL_HOLDER/?ticket={ticket_id}" 
+st.warning("Note: When deploying, copy your live Streamlit site URL from the browser bar and swap it into the QR generator below if needed.")
             
             # Manual URL config override box to guarantee QR works perfectly
           # Check if a bettor name was submitted in session state or text input
