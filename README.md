@@ -1,0 +1,1 @@
+# fightcard-manager
