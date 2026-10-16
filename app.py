@@ -21,7 +21,8 @@ if "ticket" in query_params:
     # Display bettor info and total prize pool here
 else:
     # Indent all of your existing admin code here
-    st.title("Admin Panel")HOST_CUT_PERCENTAGE = 0.07  # 7% host cut
+    st.title("Admin Panel")
+    HOST_CUT_PERCENTAGE = 0.07  # 7% host cut
 
 st.set_page_config(page_title="Fight Night Pool Manager", layout="centered")
 
