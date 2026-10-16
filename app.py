@@ -98,7 +98,7 @@ with st.sidebar:
             # PASTE THIS INSTEAD:
 homepage_url = st.text_input(
     "Paste your live website homepage link here first:",
-    value=st.secrets.get("SITE_URL", "https://fightcard-manager-fwwmzw5rjtx3jufqcpdfsw.streamlit.app")
+    value=st.secrets.get("SITE_URL", "https://fightcard-manager-fwwmzw5rjtx3jufqcpdfsw.streamlit.app"))
 final_qr_url = f"{homepage_url.rstrip('/')}/?ticket={ticket_id}"            
 st.write(f"**Private Link for {bettor_name}:**")
 st.code(final_qr_url)
