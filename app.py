@@ -1,4 +1,4 @@
-streamlit as st
+import streamlit as st
 import qrcode
 from io import BytesIO
 
