@@ -80,12 +80,11 @@ bet_data = {
 # FIXED QR CODE LINK: Automatically grabs your exact live web address 
 base_url = st.nav_to if hasattr(st, "nav_to") else "https://streamlit.io" 
 try:
-                # Tries to read the browser's URL context live
-                from streamlit.web.server.server import Server
-                current_url = st.get_option("browser.gatherUsageStats") 
-                except:
-                pass
-            
+    # Tries to read the browser's URL context live
+    from streamlit.web.server.server import Server
+    current_url = st.get_option("browser.gatherUsageStats")
+except:
+    pass            
             # Fallback text instruction for URL configuration
             secure_url = f"URL_HOLDER/?ticket={ticket_id}" 
             st.warning("Note: When deploying, copy your live Streamlit site URL from the browser bar and swap it into the QR generator below if needed.")
