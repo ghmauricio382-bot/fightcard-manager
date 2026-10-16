@@ -111,15 +111,14 @@ homepage_url = st.text_input(
 
 final_qr_url = f"{homepage_url.rstrip('/')}/?ticket={ticket_id}"
 st.write(f"**Private Link for {bettor_name}:**")
-st.code(final_qr_url)qr = qrcode.QRCode(version=1, box_size=10, border=4)
+st.code(final_qr_url)
+qr = qrcode.QRCode(version=1, box_size=10, border=4)
 qr.add_data(final_qr_url)
 qr.make(fit=True)
 img = qr.make_image(fill_color="black", back_color="white")
-            
 buf = BytesIO()
 img.save(buf, format="PNG")
 st.image(buf.getvalue(), caption="Scan this code with bettor's phone camera")
-
 # --- USER TICKET SCREEN (SCANNED QR CODES) ---
 # Reads parameters straight from scanned URL link
 if "ticket" in st.query_params:
